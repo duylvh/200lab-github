@@ -1,0 +1,27 @@
+overwrite: true
+schema: ./node_modules/@octokit/graphql-schema/schema.graphql
+config:
+  namingConvention:
+    enumValues: keep
+  preResolveTypes: true
+  skipTypename: true
+generates:
+  src/generated/github.ts:
+    plugins:
+      - 'typescript'
+      - 'fragment-matcher'
+  src/generated/introspection.json:
+    plugins:
+      - 'introspection'
+  src/: 
+    # documents: src/**/*.github.gql.ts
+    presetConfig:
+      baseTypesPath: 'generated/github.ts'
+    preset: 'near-operation-file'
+    config:
+      documentNode: 'graphQLTag'
+      dedupeFragment: true
+    plugins:
+      - 'add'
+      - 'typescript-operations'
+      - 'typed-document-node'
