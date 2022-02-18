@@ -16,7 +16,7 @@ const RepoHeader: React.FC<RepoHeaderProps> = ({ title, actions }) => {
 
   return (
     <Row align="middle" className="p-4">
-      <Col span={8}>
+      <Col span={16}>
         <div className="items-center inline-flex">
           <FileZipOutlined className="text-[1.5rem] mr-2" />
           <Typography.Title level={2} className="!mb-0">
@@ -24,7 +24,7 @@ const RepoHeader: React.FC<RepoHeaderProps> = ({ title, actions }) => {
           </Typography.Title>
         </div>
       </Col>
-      <Col span={16} className="flex justify-end">
+      <Col span={8} className="flex justify-end">
         <Wrapper>{actions}</Wrapper>
       </Col>
     </Row>

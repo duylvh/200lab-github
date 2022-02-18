@@ -13587,6 +13587,7 @@ export type Query = {
   rateLimit?: Maybe<RateLimit>;
   /** Hack to workaround https://github.com/facebook/relay/issues/112 re-exposing the root query object */
   relay: Query;
+  repo: Repo;
   /** Lookup a given repository by the owner and repository name. */
   repository?: Maybe<Repository>;
   /** Lookup a repository owner (ie. either a User or an Organization) by login. */
@@ -14596,6 +14597,12 @@ export type ReopenedEvent = Node & {
   /** Identifies the date and time when the object was created. */
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
+};
+
+export type Repo = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+  owner: Scalars['String'];
 };
 
 /** Audit log entry for a repo.access event. */

@@ -1,4 +1,5 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
+import { repoState } from "@/local-state";
 
 const httpLink = new HttpLink({ uri: "https://api.github.com/graphql" });
 const apolloLink = new ApolloLink((operation, forward) => {
@@ -9,7 +10,21 @@ const apolloLink = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        repo: {
+          read() {
+            return repoState();
+          },
+        },
+      },
+    },
+  },
+});
+
 export const client = new ApolloClient({
   link: apolloLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache,
 });

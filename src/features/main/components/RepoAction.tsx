@@ -1,20 +1,27 @@
 import * as React from "react";
 import cx from "clsx";
 import { Button, ButtonProps, Divider } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 type RepoActionProps = {
   actionTitle?: string;
-  actionCount?: number;
+  actionCount?: number | string | React.ReactElement;
   containerClassName?: string;
+  loading?: boolean;
+  formatNumber?: (value: any) => any;
 };
 
 const RepoAction: React.FC<RepoActionProps & ButtonProps> = ({
   actionTitle,
   actionCount,
   className,
+  loading,
+  formatNumber,
   containerClassName,
   ...rest
 }) => {
+  const loadingElement = <LoadingOutlined className="align-[0] text-blue-500" spin />;
+
   return (
     <div
       className={cx(
@@ -33,7 +40,9 @@ const RepoAction: React.FC<RepoActionProps & ButtonProps> = ({
         {actionTitle}
       </Button>
       <Divider type="vertical" className="h-full" />
-      <span className="text-white font-medium">{actionCount}</span>
+      <span className="text-white font-medium">
+        {loading ? loadingElement : formatNumber?.(actionCount) ?? actionCount}
+      </span>
     </div>
   );
 };

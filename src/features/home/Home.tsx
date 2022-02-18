@@ -1,42 +1,28 @@
-import * as React from "react";
-import { Outlet, useMatch } from "react-router-dom";
-import { Empty } from "antd";
-import Loading from "@/components/Elements/Loading";
-import RepoHeader from "./components/RepoHeader";
-import RepoNav from "./components/RepoNav";
-import RepoStar from "./components/RepoStar";
-import RepoWatch from "./components/RepoWatch";
+import { useQuery } from "@apollo/client";
+import ReactMarkdown from "react-markdown";
+import { GetReadmeDocument } from "./data.gql.generated";
+import remarkGfm from "remark-gfm";
 
-function Home() {
-  const isRoot = useMatch({
-    path: "/",
-    end: true,
-  });
+const Home = () => {
+  const { data, loading } = useQuery(GetReadmeDocument);
 
-  // return (
-  //   <div className="h-full flex-auto grid place-items-center">
-  //     <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No Repository" />
-  //   </div>
-  // );
+  if (loading || !data?.repository?.object) {
+    return null;
+  }
+
+  if (!("text" in data.repository.object)) {
+    return null;
+  }
 
   return (
-    <div className="h-full flex-auto">
-      <RepoHeader
-        title="asd"
-        actions={
-          <div className="inline-flex gap-4">
-            <RepoWatch />
-            <RepoStar />
-          </div>
-        }
-      />
-      <RepoNav />
-      <div>asd</div>
-      <React.Suspense fallback={<Loading />}>
-        <Outlet />
-      </React.Suspense>
+    <div className="p-4 max-w-5xl w-full flex justify-center">
+      <div className="prose prose-invert max-w-none prose-img:inline-flex prose-img:my-0">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {data.repository.object.text!}
+        </ReactMarkdown>
+      </div>
     </div>
   );
-}
+};
 
 export default Home;
