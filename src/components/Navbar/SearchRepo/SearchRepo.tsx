@@ -6,10 +6,6 @@ import { SearchReposDocument, SearchReposQuery } from "./search-repo.gql.generat
 import { SearchType } from "@/generated/github";
 import { repoState } from "@/local-state";
 
-type TSearchRepo = NonNullable<SearchReposQuery["search"]["edges"]>[0];
-
-const DEFAULT_REPO = "react-router";
-
 function SearchRepo() {
   const delay = React.useRef<NodeJS.Timeout>();
   const searchRef = React.useRef<any>();
@@ -28,7 +24,7 @@ function SearchRepo() {
           first: 20,
         },
       });
-    }, 350);
+    }, 500);
   };
 
   const handleSelect = (value: string) => {
@@ -48,6 +44,10 @@ function SearchRepo() {
       owner: owner,
       name: name,
     });
+
+    if (searchRef.current) {
+      searchRef.current.blur();
+    }
   };
 
   const options = data?.search.edges
