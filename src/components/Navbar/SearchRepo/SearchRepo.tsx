@@ -9,7 +9,7 @@ import { repoState } from "@/local-state";
 function SearchRepo() {
   const delay = React.useRef<NodeJS.Timeout>();
   const searchRef = React.useRef<any>();
-  const [searchRepos, { data }] = useLazyQuery<SearchReposQuery>(SearchReposDocument, {});
+  const [searchRepos, { data }] = useLazyQuery<SearchReposQuery>(SearchReposDocument);
 
   const handleSearch = (value: string) => {
     if (delay.current) {

@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />}>
           <Route path="/" element={<Home />} />
-          <Route path="/pull-request" element={<PullRequest />} />
+          <Route path="/pulls" element={<PullRequest />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Route>
       </Routes>

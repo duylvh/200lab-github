@@ -8,7 +8,7 @@ export default gql`
     }
     repository(name: $name, owner: $owner) {
       id
-      object(expression: "master:README.md") {
+      object(expression: "HEAD:README.md") {
         ... on Blob {
           text
         }

@@ -1,8 +1,11 @@
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
+import { from, ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
 import { repoState } from "@/local-state";
 
-const httpLink = new HttpLink({ uri: "https://api.github.com/graphql" });
-const apolloLink = new ApolloLink((operation, forward) => {
+const httpLink = new HttpLink({
+  uri: process.env.REACT_APP_GITHUB_GQL_API,
+});
+
+const authLink = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: { Authorization: `Bearer ${process.env.REACT_APP_GITHUB_ACCESS_TOKEN}` },
   });
@@ -25,6 +28,6 @@ const cache = new InMemoryCache({
 });
 
 export const client = new ApolloClient({
-  link: apolloLink.concat(httpLink),
+  link: from([authLink, httpLink]),
   cache,
 });

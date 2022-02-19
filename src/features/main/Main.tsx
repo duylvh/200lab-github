@@ -37,9 +37,11 @@ function Main() {
         />
         <RepoNav />
       </div>
-      <React.Suspense fallback={<Loading />}>
-        <Outlet />
-      </React.Suspense>
+      <div className="flex flex-auto">
+        <React.Suspense fallback={<Loading />}>
+          <Outlet />
+        </React.Suspense>
+      </div>
     </MainLayout>
   );
 }

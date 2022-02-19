@@ -4,6 +4,8 @@ import RepoAction from "../RepoAction";
 import { GetRepoWatcherDocument, UpdateWatchDocument } from "./repo-watch.gql.generated";
 import { SubscriptionState } from "@/generated/github";
 
+const formatter = new Intl.NumberFormat("en", { notation: "compact" });
+
 const RepoWatch = () => {
   const { data, loading } = useQuery(GetRepoWatcherDocument);
   const [updateWatchState, { loading: updateLoading }] = useMutation(
@@ -14,6 +16,7 @@ const RepoWatch = () => {
   );
 
   const state = data?.repository?.viewerSubscription;
+  const actionCount = data?.repository?.watchers.totalCount;
   const isSubcribed = state === SubscriptionState.SUBSCRIBED;
   const isLoading = loading || updateLoading;
 
@@ -35,7 +38,8 @@ const RepoWatch = () => {
       disabled={isLoading}
       loading={isLoading}
       actionTitle={isSubcribed ? "Unwatch" : "Watch"}
-      actionCount={data?.repository?.watchers.totalCount}
+      actionCount={actionCount}
+      formatNumber={formatter.format}
       icon={<EyeOutlined className="!leading-[0]" />}
       onClick={handleUpdateWatchState}
     />

@@ -1,7 +1,7 @@
 import React from "react";
 
 function PullRequest() {
-  return <div>asd</div>;
+  return <div></div>;
 }
 
 export default PullRequest;

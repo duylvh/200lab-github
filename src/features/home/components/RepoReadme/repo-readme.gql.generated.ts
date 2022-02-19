@@ -4,7 +4,7 @@
  // This file was automatically generated and should not be edited.
  // ⚠️⚠️⚠️⚠️⚠️
 
-import * as Types from '../../generated/github';
+import * as Types from '../../../../generated/github';
 
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type GetReadmeQueryVariables = Types.Exact<{
