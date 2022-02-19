@@ -25,16 +25,18 @@ function Main() {
 
   return (
     <MainLayout>
-      <RepoHeader
-        title={`${data.owner}/${data.name}`}
-        actions={
-          <div className="inline-flex gap-4">
-            <RepoWatch />
-            <RepoStar />
-          </div>
-        }
-      />
-      <RepoNav />
+      <div className="sticky top-0 bg-black">
+        <RepoHeader
+          title={`${data.owner}/${data.name}`}
+          actions={
+            <div className="inline-flex gap-4">
+              <RepoWatch />
+              <RepoStar />
+            </div>
+          }
+        />
+        <RepoNav />
+      </div>
       <React.Suspense fallback={<Loading />}>
         <Outlet />
       </React.Suspense>
