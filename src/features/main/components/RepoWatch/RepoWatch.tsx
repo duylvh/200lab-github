@@ -12,6 +12,7 @@ const RepoWatch = () => {
     UpdateWatchDocument,
     {
       refetchQueries: [GetRepoWatcherDocument],
+      awaitRefetchQueries: true,
     }
   );
 

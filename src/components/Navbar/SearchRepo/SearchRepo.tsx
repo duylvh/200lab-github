@@ -1,35 +1,30 @@
 import * as React from "react";
 import get from "lodash/get";
+import debounce from "lodash/debounce";
 import { AutoComplete } from "antd";
+import { BaseSelectRef } from "rc-select";
 import { useLazyQuery } from "@apollo/client";
-import { SearchReposDocument, SearchReposQuery } from "./search-repo.gql.generated";
+import { SearchReposDocument } from "./search-repo.gql.generated";
 import { SearchType } from "@/generated/github";
 import { repoState } from "@/local-state";
 
 function SearchRepo() {
-  const delay = React.useRef<NodeJS.Timeout>();
-  const searchRef = React.useRef<any>();
-  const [searchRepos, { data }] = useLazyQuery<SearchReposQuery>(SearchReposDocument);
+  const searchRef = React.useRef<BaseSelectRef | null>(null);
+  const [searchRepos, { data }] = useLazyQuery(SearchReposDocument);
 
-  const handleSearch = (value: string) => {
-    if (delay.current) {
-      clearTimeout(delay.current);
-    }
-
-    delay.current = setTimeout(() => {
-      searchRepos({
-        variables: {
-          query: value,
-          type: SearchType.REPOSITORY,
-          first: 20,
-        },
-      });
-    }, 500);
-  };
+  const handleSearch = debounce((value: string) => {
+    searchRepos({
+      variables: {
+        query: value,
+        type: SearchType.REPOSITORY,
+        first: 20,
+      },
+    });
+  }, 500);
 
   const handleSelect = (value: string) => {
     const repo = data?.search?.edges?.find(
-      (item) => get(item, "node.nameWithOwner", "") === value
+      (item) => get(item, "node.nameWithOwner") === value
     )?.node;
 
     if (!repo || !("id" in repo)) {
@@ -51,14 +46,14 @@ function SearchRepo() {
   };
 
   const options = data?.search.edges
+    ?.filter((edge) => edge?.node && "id" in edge.node)
     ?.map((item) => {
       if (item?.node && "id" in item.node) {
         return { label: item.node.nameWithOwner, value: item.node.nameWithOwner };
       }
 
       return {};
-    })
-    .filter((option) => Object.keys(option).length);
+    });
 
   return (
     <AutoComplete

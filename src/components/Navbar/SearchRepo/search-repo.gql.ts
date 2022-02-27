@@ -10,9 +10,6 @@ export default gql`
             name
             nameWithOwner
           }
-          ... on Starrable {
-            stargazerCount
-          }
         }
       }
     }
