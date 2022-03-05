@@ -7,7 +7,7 @@ const Readme = ({
   className,
 }: {
   content: string;
-  className?: Pick<HTMLDivElement, "className">;
+  className?: string;
 }) => {
   return (
     <div

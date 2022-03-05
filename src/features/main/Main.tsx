@@ -29,19 +29,17 @@ function Main() {
         <RepoHeader
           title={`${data.owner}/${data.name}`}
           actions={
-            <div className="inline-flex gap-4">
+            <>
               <RepoWatch />
               <RepoStar />
-            </div>
+            </>
           }
         />
         <RepoNav />
       </div>
-      <div className="flex flex-auto">
-        <React.Suspense fallback={<Loading />}>
-          <Outlet />
-        </React.Suspense>
-      </div>
+      <React.Suspense fallback={<Loading />}>
+        <Outlet />
+      </React.Suspense>
     </MainLayout>
   );
 }

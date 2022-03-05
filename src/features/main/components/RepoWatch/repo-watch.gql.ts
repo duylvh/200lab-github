@@ -20,8 +20,6 @@ export default gql`
     updateSubscription(input: { state: $state, subscribableId: $id }) {
       subscribable {
         id
-        viewerCanSubscribe
-        viewerSubscription
       }
     }
   }

@@ -1,11 +1,7 @@
 import RepoReadme from "./components/RepoReadme";
 
 const Home = () => {
-  return (
-    <div className="p-4 w-full">
-      <RepoReadme />
-    </div>
-  );
+  return <RepoReadme />;
 };
 
 export default Home;

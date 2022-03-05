@@ -1,5 +1,6 @@
 import { from, ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
 import { repoState } from "@/local-state";
+import generatedTypes from '@/generated/github'
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_GITHUB_GQL_API,
@@ -14,6 +15,7 @@ const authLink = new ApolloLink((operation, forward) => {
 });
 
 const cache = new InMemoryCache({
+  possibleTypes: generatedTypes.possibleTypes,
   typePolicies: {
     Query: {
       fields: {
